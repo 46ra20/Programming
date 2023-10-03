@@ -13,7 +13,7 @@ int main()
     // printf("%s",6==6);
     int tk;
     scanf("\n%d", &tk);
-    if (tk > 5000)
+    if (tk >= 5000)
     {
         printf("Cox'bazar jabo");
     }
