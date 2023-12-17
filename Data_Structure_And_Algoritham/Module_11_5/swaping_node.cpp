@@ -5,17 +5,13 @@ class Node
 public:
     int val;
     Node *next;
-    Node *previous;
-
     Node() {}
     Node(int val)
     {
         this->val = val;
         this->next = NULL;
-        this->previous = NULL;
     }
 };
-
 void insert_node(Node *&head, Node *&tail, int val)
 {
     Node *n = new Node(val);
@@ -26,31 +22,43 @@ void insert_node(Node *&head, Node *&tail, int val)
         return;
     }
     tail->next = n;
-    n->previous = tail;
-    tail = tail->next;
+    tail = n;
+    return;
 }
-void sort_node(Node *&head)
+void print_node(Node *n)
 {
-    for (Node *i = head; i->next != NULL; i = i->next)
+    // cout << n->val << " ";
+    while (n != NULL)
     {
-        for (Node *j = i->next; j != NULL; j = j->next)
-        {
-            if (i->val > j->val)
-            {
-                swap(i->val, j->val);
-            }
-        }
+        cout << n->val << " ";
+        n = n->next;
     }
     return;
 }
-void print_node(Node *head)
+
+int size(Node *n)
 {
-    while (head != NULL)
+    int c = 0;
+    while (n != NULL)
     {
-        cout << head->val << " ";
-        head = head->next;
+        c++;
+        n = n->next;
     }
-    cout << endl;
+    return c;
+}
+void swap_value(Node *&head, int k)
+{
+    int sz = size(head), k_next = sz - k;
+    Node *tem = head, *tem_2 = head;
+    for (int i = 1; i < k; i++)
+    {
+        tem = tem->next;
+    }
+    for (int i = 0; i < k_next; i++)
+    {
+        tem_2 = tem_2->next;
+    }
+    swap(tem->val, tem_2->val);
     return;
 }
 int main()
@@ -61,13 +69,17 @@ int main()
         int x;
         cin >> x;
         if (x == -1)
+        {
             break;
+        }
         else
         {
             insert_node(head, tail, x);
         }
     }
-    sort_node(head);
+    int k;
+    cin >> k;
+    swap_value(head, k);
     print_node(head);
     return 0;
 }

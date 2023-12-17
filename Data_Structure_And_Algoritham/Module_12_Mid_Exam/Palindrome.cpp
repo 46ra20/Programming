@@ -5,53 +5,38 @@ class Node
 public:
     int val;
     Node *next;
-    Node *previous;
-
+    Node *pre;
     Node() {}
     Node(int val)
     {
         this->val = val;
         this->next = NULL;
-        this->previous = NULL;
+        this->pre = NULL;
     }
 };
-
 void insert_node(Node *&head, Node *&tail, int val)
 {
-    Node *n = new Node(val);
+    Node *d = new Node(val);
     if (head == NULL)
     {
-        head = n;
-        tail = n;
+        head = d;
+        tail = d;
         return;
     }
-    tail->next = n;
-    n->previous = tail;
+    tail->next = d;
+    d->pre = tail;
     tail = tail->next;
 }
-void sort_node(Node *&head)
-{
-    for (Node *i = head; i->next != NULL; i = i->next)
-    {
-        for (Node *j = i->next; j != NULL; j = j->next)
-        {
-            if (i->val > j->val)
-            {
-                swap(i->val, j->val);
-            }
-        }
-    }
-    return;
-}
-void print_node(Node *head)
+bool palindrome(Node *head, Node *tail)
 {
     while (head != NULL)
     {
-        cout << head->val << " ";
+        if (head->val != tail->val)
+            return false;
         head = head->next;
+        tail = tail->pre;
     }
-    cout << endl;
-    return;
+    return true;
 }
 int main()
 {
@@ -67,7 +52,10 @@ int main()
             insert_node(head, tail, x);
         }
     }
-    sort_node(head);
-    print_node(head);
+    bool is_palindrome = palindrome(head, tail);
+    if (is_palindrome)
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
     return 0;
 }
